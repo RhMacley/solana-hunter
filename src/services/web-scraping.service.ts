@@ -5,7 +5,10 @@ import { CollectionInformation } from 'src/entities/collection-information.entit
 @Injectable()
 export class WebScraping {
   public async handle(): Promise<CollectionInformation[]> {
-    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+    const browser = await puppeteer.launch({
+      headless: true,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
     const browserPage = await browser.newPage();
     const result = await this.acessPageAndGetInformations(browserPage);
     await browser.close();
