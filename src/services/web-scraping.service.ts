@@ -5,17 +5,11 @@ import { CollectionInformation } from 'src/entities/collection-information.entit
 @Injectable()
 export class WebScraping {
   public async handle(): Promise<CollectionInformation[]> {
-    const browserPage = await this.startBrowser();
-    return this.acessPageAndGetInformations(browserPage);
-  }
-
-  public async startBrowser(): Promise<Page> {
-    try {
-      const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
-      return await browser.newPage();
-    } catch (error) {
-      console.log('Could not create a browser instance => : ', error);
-    }
+    const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
+    const browserPage = await browser.newPage();
+    const result = await this.acessPageAndGetInformations(browserPage);
+    await browser.close();
+    return result;
   }
 
   public async acessPageAndGetInformations(
@@ -87,6 +81,7 @@ export class WebScraping {
       });
       finalResult.push(result);
     }
+    await page.close();
     return finalResult;
   }
 }
