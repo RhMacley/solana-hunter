@@ -13,7 +13,7 @@ export class EmbedLmnftActivityAdapter {
           'https://pbs.twimg.com/profile_images/1565798003058827270/MZr-ThGD_400x400.jpg',
         url: 'https://twitter.com/Tmclyy',
       },
-      description: 'LMNFT Activity',
+      description: 'LMNFT activity in the last 30 seconds...',
       thumbnail: {
         url: params.image,
       },
