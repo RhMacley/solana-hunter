@@ -19,6 +19,11 @@ export class GetInformations {
     return response.status(HttpStatus.OK).json(collectionInformations);
   }
 
+  @Get()
+  async ping(@Res() response: HttpResponse<any>): Promise<any> {
+    return response.status(HttpStatus.OK).json('Seja bem vindo');
+  }
+
   @Cron(CronExpression.EVERY_30_SECONDS)
   async run(): Promise<any> {
     await this.discordBot.handle();
