@@ -56,7 +56,10 @@ export class Discord {
             const embedAdapted = adapter.command(newInformations[k]);
             channel.send({ embeds: [embedAdapted] });
             oldInformations[i].quantitySold = newInformations[k].quantitySold;
-            fs.writeFileSync('jsonzinho.json', JSON.stringify(oldInformations));
+            fs.writeFileSync(
+              'jsonzinho.json',
+              JSON.stringify({ oldInformations, newInformations }),
+            );
             console.log('Informations already sent to the discord bot...');
             break;
           }
