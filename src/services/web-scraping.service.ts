@@ -6,7 +6,6 @@ import { CollectionInformation } from 'src/entities/collection-information.entit
 export class WebScraping {
   public async handle(): Promise<CollectionInformation[]> {
     const browser = await puppeteer.launch({
-      headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
     const browserPage = await browser.newPage();
