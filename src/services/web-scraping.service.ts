@@ -11,7 +11,7 @@ export class WebScraping {
 
   public async startBrowser(): Promise<Page> {
     try {
-      const browser = await puppeteer.launch();
+      const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
       return await browser.newPage();
     } catch (error) {
       console.log('Could not create a browser instance => : ', error);
