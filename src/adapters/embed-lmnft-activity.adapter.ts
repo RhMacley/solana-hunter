@@ -13,7 +13,7 @@ export class EmbedLmnftActivityAdapter {
           'https://pbs.twimg.com/profile_images/1565798003058827270/MZr-ThGD_400x400.jpg',
         url: 'https://twitter.com/Tmclyy',
       },
-      description: 'LMNFT activity in the last 30 seconds...',
+      description: 'LMNFT Activity',
       thumbnail: {
         url: params.image,
       },
@@ -36,7 +36,7 @@ export class EmbedLmnftActivityAdapter {
         { name: '\u200B', value: '\u200B' },
         {
           name: 'Minted',
-          value: `+ ${params.minted}`,
+          value: `+ ${params.minted} in the last 30 seconds...`,
           inline: true,
         },
         {
