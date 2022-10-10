@@ -37,9 +37,8 @@ export class Discord {
         for (let k = 0; k < newInformations.length; k++) {
           if (
             newInformations[k].name === oldInformations[i].name &&
-            Number(newInformations[k].quantitySold) -
-              Number(oldInformations[i].quantitySold) >
-              0
+            Number(newInformations[k].quantitySold) !==
+              Number(oldInformations[i].quantitySold)
           ) {
             console.log('Something has changed...');
             let nameOfCollection = newInformations[k].name;
@@ -54,17 +53,23 @@ export class Discord {
             newInformations[k].minted = String(minted);
             const adapter = new EmbedLmnftActivityAdapter();
             const embedAdapted = adapter.command(newInformations[k]);
-            channel.send({ embeds: [embedAdapted] });
-            oldInformations[i].quantitySold = newInformations[k].quantitySold;
-            fs.writeFileSync(
-              'jsonzinho.json',
-              JSON.stringify({ oldInformations, newInformations }),
-            );
+            await channel.send({ embeds: [embedAdapted] });
+            delete newInformations[k].change;
+            delete newInformations[k].minted;
+            oldInformations[i] = newInformations[k];
+            const newAndOldConcat = newInformations.concat(oldInformations);
+            const uniq = new Set(newAndOldConcat.map((e) => JSON.stringify(e)));
+            const res = Array.from(uniq).map((e) => JSON.parse(e));
+            fs.writeFileSync('jsonzinho.json', JSON.stringify(res));
             console.log('Informations already sent to the discord bot...');
             break;
           }
         }
       }
+      const newAndOldConcat = newInformations.concat(oldInformations);
+      const uniq = new Set(newAndOldConcat.map((e) => JSON.stringify(e)));
+      const res = Array.from(uniq).map((e) => JSON.parse(e));
+      fs.writeFileSync('jsonzinho.json', JSON.stringify(res));
     } else {
       fs.writeFileSync('jsonzinho.json', JSON.stringify(informations));
     }
