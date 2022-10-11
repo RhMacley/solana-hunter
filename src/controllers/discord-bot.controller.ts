@@ -2,15 +2,21 @@ import { Controller, Get, HttpStatus, Res } from '@nestjs/common';
 import { WebScraping } from 'src/services/web-scraping.service';
 import { Response as HttpResponse } from 'express';
 import { Cron, CronExpression } from '@nestjs/schedule';
-import { Discord } from 'src/services/discord.service';
 import { CollectionInformation } from 'src/entities/collection-information.entity';
+import * as fs from 'fs';
+import { DiscordBotLmnftActivity } from 'src/services/discord-bot-lmnft-activity.service';
 
 @Controller()
-export class GetInformations {
+export class DiscordBot {
   constructor(
     private readonly webScraping: WebScraping,
-    private readonly discordBot: Discord,
+    private readonly discordBotLmnftActivity: DiscordBotLmnftActivity,
   ) {}
+  @Get()
+  async ping(@Res() response: HttpResponse<any>): Promise<any> {
+    return response.status(HttpStatus.OK).json('Seja bem vindo');
+  }
+
   @Get('/collections')
   async get(
     @Res() response: HttpResponse<CollectionInformation[]>,
@@ -19,13 +25,15 @@ export class GetInformations {
     return response.status(HttpStatus.OK).json(collectionInformations);
   }
 
-  @Get()
-  async ping(@Res() response: HttpResponse<any>): Promise<any> {
-    return response.status(HttpStatus.OK).json('Seja bem vindo');
-  }
-
   @Cron(CronExpression.EVERY_30_SECONDS)
   async run(): Promise<any> {
-    await this.discordBot.handle();
+    await this.discordBotLmnftActivity.handle();
+  }
+
+  @Cron(CronExpression.EVERY_3_HOURS)
+  async delete(): Promise<any> {
+    if (fs.existsSync('jsonzinho.json')) {
+      fs.unlinkSync('jsonzinho.json');
+    }
   }
 }

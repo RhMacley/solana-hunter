@@ -6,12 +6,12 @@ import * as fs from 'fs';
 import { CollectionInformation } from 'src/entities/collection-information.entity';
 
 @Injectable()
-export class Discord {
+export class DiscordBotLmnftActivity {
   constructor(private readonly webScraping: WebScraping) {}
 
   public async handle() {
     const token =
-      'NzY0NjU3Nzg3MzQyNTUzMTE5.Ghxf7V.5KsKJ0VA0o7DlZxwex8jW-jJhEY4Q-Osd_7Q7M';
+      'NzY0NjU3Nzg3MzQyNTUzMTE5.G6fZps.hq8mcaXIcnI4hYRyrLy5qKPwJUJS9rmvi0DzIE';
     const client = new Client({
       intents: ['GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
     });

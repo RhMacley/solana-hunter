@@ -26,8 +26,6 @@ export class WebScraping {
       return el.map((a) => a.getAttribute('href'));
     });
     console.log('Get URLS...');
-    // const half = Math.ceil(urls.length / 2);
-    // const firstHalf = urls.slice(0, half);
     let finalResult: Array<CollectionInformation> = [];
     console.log('Get informations...');
     for (let item of urls) {
