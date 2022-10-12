@@ -11,7 +11,7 @@ export class DiscordBotLmnftActivity {
 
   public async handle() {
     const token =
-      'NzY0NjU3Nzg3MzQyNTUzMTE5.G6fZps.hq8mcaXIcnI4hYRyrLy5qKPwJUJS9rmvi0DzIE';
+      'NzY0NjU3Nzg3MzQyNTUzMTE5.GHStZn.H1-_4yHBlz-Z7vRCGMbRDY3Xf0FI09lJFko3m8';
     const client = new Client({
       intents: ['GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
     });
