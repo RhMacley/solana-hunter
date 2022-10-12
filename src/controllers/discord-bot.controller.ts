@@ -25,7 +25,7 @@ export class DiscordBot {
     return response.status(HttpStatus.OK).json(collectionInformations);
   }
 
-  @Cron(CronExpression.EVERY_30_SECONDS)
+  @Cron(CronExpression.EVERY_MINUTE)
   async run(): Promise<any> {
     await this.discordBotLmnftActivity.handle();
   }
