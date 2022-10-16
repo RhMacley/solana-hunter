@@ -9,15 +9,15 @@ export class WebScraping {
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
     const browserPage = await browser.newPage();
-    const result = await this.acessPageAndGetInformations(browserPage);
+    const result = await this.accessPageAndGetInformations(browserPage);
     await browser.close();
     return result;
   }
 
-  public async acessPageAndGetInformations(
+  public async accessPageAndGetInformations(
     page: Page,
   ): Promise<CollectionInformation[]> {
-    console.log('Acessing the webpage...');
+    console.log('Accessing the webpage...');
     await page.goto(
       'https://launchmynft.io/explore?sort=hot&sortBy=collections%2Fsort%2FlastMintedAt%3Adesc&page=1&toggle%5BtwitterVerified%5D=false&refinementList%5Btype%5D%5B0%5D=Solana',
     );
