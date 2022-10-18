@@ -30,11 +30,9 @@ export class WebScraping {
     console.log('Get informations...');
     for (let item of urls) {
       await page.goto(`https://launchmynft.io${item}`);
-      await page.waitForSelector(
-        'div > div > div > div > div > div:nth-child(3) > span',
-      );
+      await page.waitForSelector('div > div > div > div > div > span');
       let soldMinteds = await page.$eval(
-        'div > div > div > div > div > div:nth-child(3) > span',
+        'div > div > div > div > div > span',
         (element) => {
           return element.textContent;
         },
@@ -52,23 +50,29 @@ export class WebScraping {
       const totalQuantity = supply.split('/')[1];
       const percentageSold = soldMinteds.split(' ')[0];
       const price = await page.$eval(
-        'div > div > div > div > div > div > div > strong',
+        'div > div > div > div > div > div > strong',
         (element) => {
           return element.textContent;
         },
       );
-      const collectionName = await page.$eval(
-        'div > div > div > h1',
-        (element) => {
-          return element.textContent;
-        },
-      );
-      const image = await page.$eval(
+      const collectionName = await page.$eval('div > div > h1', (element) => {
+        return element.textContent;
+      });
+      let image = await page.$eval(
         'div > div > div > div > span > img',
         (element) => {
           return element.getAttribute('src');
         },
       );
+      console.log(image);
+      if (image === 'null') {
+        image = await page.$eval(
+          'div > div > div > div:nth-child(2) > span > img',
+          (element) => {
+            return element.getAttribute('src');
+          },
+        );
+      }
       const result = new CollectionInformation({
         name: collectionName,
         price,

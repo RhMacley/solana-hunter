@@ -10,7 +10,8 @@ export class DiscordBotLmnftActivity {
   constructor(private readonly webScraping: WebScraping) {}
 
   public async handle() {
-    const token = process.env.DISCORD_TOKEN;
+    const token =
+      'NzY0NjU3Nzg3MzQyNTUzMTE5.GHvAUu.V3FOesUjrabnD9-9xXaO8pgH4GGttUrwquM4Vw';
     const client = new Client({
       intents: ['GUILDS', 'GUILD_MESSAGES', 'DIRECT_MESSAGES'],
     });
