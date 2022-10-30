@@ -49,30 +49,21 @@ export class WebScraping {
       const quantitySold = supply.split('/')[0];
       const totalQuantity = supply.split('/')[1];
       const percentageSold = soldMinteds.split(' ')[0];
-      const price = await page.$eval(
-        'div > div > div > div > div > div > strong',
-        (element) => {
-          return element.textContent;
-        },
-      );
+      const price = await this.tryGetPriceProperty(page, [
+        'div > div > div > div > div:nth-child(3) > div > strong',
+        'div > div > div > div > div > div > div > strong',
+        'div > div > div > div > div > div:nth-child(4) > div > strong',
+      ]);
+      console.log('price ->', price);
+
       const collectionName = await page.$eval('div > div > h1', (element) => {
         return element.textContent;
       });
-      let image = await page.$eval(
+      const image = await this.tryGetImageProperty(page, [
         'div > div > div > div > span > img',
-        (element) => {
-          return element.getAttribute('src');
-        },
-      );
-      console.log(image);
-      if (image === 'null') {
-        image = await page.$eval(
-          'div > div > div > div:nth-child(2) > span > img',
-          (element) => {
-            return element.getAttribute('src');
-          },
-        );
-      }
+        'div > div > div > div:nth-child(2) > span > img',
+        'div > div > div > div > div > div > div > div> img',
+      ]);
       const result = new CollectionInformation({
         name: collectionName,
         price,
@@ -87,5 +78,41 @@ export class WebScraping {
     }
     await page.close();
     return finalResult;
+  }
+
+  private async tryGetPriceProperty(
+    page: Page,
+    pagesToEvaluate: Array<string>,
+  ) {
+    for (const pageEvaluate of pagesToEvaluate) {
+      let price: string;
+      try {
+        price = await page.$eval(pageEvaluate, (element) => {
+          return element.textContent;
+        });
+        return price;
+      } catch (error) {
+        console.log('error ->', error);
+        continue;
+      }
+    }
+  }
+
+  private async tryGetImageProperty(
+    page: Page,
+    imagesToEvaluate: Array<string>,
+  ) {
+    for (const images of imagesToEvaluate) {
+      let price: string;
+      try {
+        price = await page.$eval(images, (element) => {
+          return element.getAttribute('src');
+        });
+        return price;
+      } catch (error) {
+        console.log('error ->', error);
+        continue;
+      }
+    }
   }
 }
